@@ -1,0 +1,99 @@
+<div id="page-top" class="page-top">&nbsp;</div> <!-- used for anchorscroll -->
+
+<section id="home" class="section-product" ng-init="connect.initView()">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                
+                <h1>
+                    <a href="" ng-click="connect.goTo('admin.home')">Menu</a> | Stripe Connect Setup
+                </h1>
+                <p>&nbsp;</p>
+                <p>
+                  This platform uses Stripe Connect to handle the payments. On this page you can retrieve 
+                  your unique Stripe id, which you need to subsequently define in your Ionic App
+                  in the file app.js under the variable <i>STRIPE_OWNER_ACCOUNT_ID</i>
+                </p>
+      
+            </div>
+        </div>
+        
+        <hr class="star-light">
+        
+        
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        
+        <h3>
+            Account status
+        </h3>
+        <p>
+            <span 
+                class="text-balanced" 
+                ng-show="connect.status['setupStripeConnect'] == true && !connect.status['setupStripeConnectMode']">
+                Account connected
+            </span>
+            <span 
+                class="text-assertive" 
+                ng-show="connect.status['setupStripeConnect'] == false && !connect.status['setupStripeConnectMode']">
+                Account not connected
+            </span>
+            <span 
+                class="text-positive" 
+                ng-show="connect.status['setupStripeConnectMode']" 
+                ng-click="connect.statusrefreshStripeConnectAuth()">
+                Refresh page
+            </span>
+        </p>
+        
+        
+        <!-- authorize part -->
+        <div ng-show="connect.status['authorize_url']">
+            
+            <h3 ng-show="connect.SCData['stripe_user_id']">
+                Stripe ID
+            </h3>
+            <p>
+                <strong>{{connect.SCData['stripe_user_id']}}</strong>
+            </p>
+            
+            <h3 ng-show="connect.SCData['stripe_user_id']">
+                Actions
+            </h3>
+            
+            <p ng-show="!connect.status['setupStripeConnectMode'] && (connect.status['setupStripeConnect'] == false || connect.status['generateNewToken'] == true)">
+                <a
+                    href="{{connect.status['authorize_url']}}"
+                    target="_blank"
+                    ng-click="connect.connectWithStripe()">
+                    Connect with Stripe
+                </a>
+            </p>
+            
+            <p ng-show="connect.status['setupStripeConnect'] == true && !connect.status['setupStripeConnectMode']">
+                <a 
+                    href="{{connect.status['authorize_url']}}"
+                    target="_blank"
+                    ng-click="connect.connectWithStripe()">
+                    Change account
+                </a>
+            </p>
+            
+            <p ng-show="connect.status['setupStripeConnectMode']">
+                <a
+                    ng-click="connect.refreshStripeConnectAuth()">
+                    Refresh
+                </a>
+            </p>
+            
+            
+            
+        </div>
+        
+    </div>
+</section>

@@ -1,0 +1,73 @@
+<div id="page-top" class="page-top">&nbsp;</div> <!-- used for anchorscroll -->
+
+<section id="home" class="section-product" ng-init="sales.initView()">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <h1>
+                    <a href="" ng-click="sales.goTo('admin.home')">Menu</a> | Sales
+                </h1>
+                <p>&nbsp;</p>
+                <p id="warning" ng-show="sales.status.generalmessage">
+                    {{sales.status.generalmessage}}
+                </p>
+            </div>
+        </div>
+        
+        
+        
+        <!-- spinner - can be rewritten to ng-switch to avoid flickering -->
+        <div class="row" ng-show="sales.status.loading">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <p><img ng-src="css/loading.svg" id="loading-img-large"></p>
+            </div>
+        </div>  <!-- ./ spinner -->
+        
+        <!-- FormData -->
+        <div ng-show="!sales.status.loading">
+            
+            <div class="row">
+                <div class="col-sm-4">
+                    <h3>Total Nb Items Sold: {{sales.totalSales.nbItems}}</h3>
+                </div>
+                <div class="col-sm-4">
+                    <h3>Total Nb Orders: {{sales.totalSales.nbOrders}}</h3>
+                </div>
+                <div class="col-sm-4">
+                    <h3>Total Earnings: ${{sales.totalSales.value.toFixed(2)}}</h3>
+                </div>
+            </div>
+            
+            <br>
+            
+            <!-- HEADER -->
+            <div class="row row-item" ng-repeat="orderObj in sales.OrdersDataArray | orderBy: '-value.timestamp'">
+                
+
+                <div class="col-sm-4 text-left center-small-screen">
+                     {{orderObj.key}} <br>
+                     <strong>{{sales.formatTimestamp(orderObj.value.timestamp)}}</strong><br><br>
+                </div>
+                <div class="col-sm-4 text-left center-small-screen">
+                    NbItems: {{orderObj.value.Cart.CachedTotal.total_count}} <br>
+                    Value: ${{orderObj.value.Cart.CachedTotal.total_value}} <br><br>
+                </div>
+                <div class="col-sm-4 text-right center-small-screen">
+                    <button class="btn-positive-outline" ng-click="sales.goToOrder(0, orderObj.key)">
+                        View order
+                    </button>
+                </div>
+                
+
+            </div>
+            <!-- ./ HEADER -->
+            
+           
+          
+            
+        </div> <!-- ./ FormData -->
+        
+
+    </div>
+</section>
